@@ -24,13 +24,13 @@ class DashboardController extends Controller
         $totalTeachers = Teacher::count();
 
         $activeAcademicYear = AcademicYear::where('is_active', true)->first();
-        $todayHoliday = Holiday::where('date', $today)->first();
+        $todayHoliday = Holiday::whereDate('date', $today)->first();
 
-        $todayAttendancesCount = Attendance::where('date', $today)->count();
-        $presentCount = Attendance::where('date', $today)->where('status', 'present')->count();
-        $lateCount = Attendance::where('date', $today)->where('status', 'late')->count();
-        $sickCount = Attendance::where('date', $today)->where('status', 'sick')->count();
-        $permissionCount = Attendance::where('date', $today)->where('status', 'permission')->count();
+        $todayAttendancesCount = Attendance::whereDate('date', $today)->count();
+        $presentCount = Attendance::whereDate('date', $today)->where('status', 'present')->count();
+        $lateCount = Attendance::whereDate('date', $today)->where('status', 'late')->count();
+        $sickCount = Attendance::whereDate('date', $today)->where('status', 'sick')->count();
+        $permissionCount = Attendance::whereDate('date', $today)->where('status', 'permission')->count();
         $absentCount = max(0, $totalStudents - $todayAttendancesCount);
 
         $recentAttendances = Attendance::with(['student.schoolClass.major'])

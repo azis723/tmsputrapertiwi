@@ -16,9 +16,9 @@ class DashboardController extends Controller
         $student = Auth::guard('student')->user()->load(['schoolClass.major', 'schoolClass.homeroomTeacher']);
         $today = Carbon::today()->toDateString();
 
-        $todayHoliday = Holiday::where('date', $today)->first();
+        $todayHoliday = Holiday::whereDate('date', $today)->first();
         $todayAttendance = Attendance::where('student_id', $student->id)
-            ->where('date', $today)
+            ->whereDate('date', $today)
             ->first();
 
         $monthlyAttendances = Attendance::where('student_id', $student->id)

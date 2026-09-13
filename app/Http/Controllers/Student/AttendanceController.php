@@ -26,7 +26,7 @@ class AttendanceController extends Controller
         }
 
         // 2. Check if today is a holiday
-        $holiday = Holiday::where('date', $today)->first();
+        $holiday = Holiday::whereDate('date', $today)->first();
         if ($holiday) {
             return view('student.attendance_blocked', [
                 'student' => $student,
@@ -39,7 +39,7 @@ class AttendanceController extends Controller
 
         // 3. Check if already attended today (Strict 1x per day rule)
         $existing = Attendance::where('student_id', $student->id)
-            ->where('date', $today)
+            ->whereDate('date', $today)
             ->first();
 
         if ($existing) {
@@ -78,7 +78,7 @@ class AttendanceController extends Controller
         }
 
         // Check holiday
-        if (Holiday::where('date', $today)->exists()) {
+        if (Holiday::whereDate('date', $today)->exists()) {
             return response()->json([
                 'success' => false,
                 'message' => 'Hari ini adalah hari libur sekolah. Presensi ditutup.',
@@ -86,7 +86,7 @@ class AttendanceController extends Controller
         }
 
         // Check already attended
-        if (Attendance::where('student_id', $student->id)->where('date', $today)->exists()) {
+        if (Attendance::where('student_id', $student->id)->whereDate('date', $today)->exists()) {
             return response()->json([
                 'success' => false,
                 'message' => 'Anda sudah melakukan presensi hari ini.',
