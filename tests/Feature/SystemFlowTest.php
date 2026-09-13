@@ -6,6 +6,8 @@ use App\Models\AcademicYear;
 use App\Models\Attendance;
 use App\Models\Holiday;
 use App\Models\Major;
+use App\Models\Schedule;
+use App\Models\ScheduleTime;
 use App\Models\SchoolClass;
 use App\Models\SchoolSetting;
 use App\Models\Student;
@@ -507,5 +509,33 @@ class SystemFlowTest extends TestCase
         // Profile view
         $profileRes = $this->actingAs($student, 'student')->get(route('student.profile'));
         $profileRes->assertStatus(200);
+    }
+
+    public function test_admin_can_access_schedule_times_and_schedules()
+    {
+        $admin = User::create([
+            'name' => 'Admin Schedule',
+            'email' => 'adminsched@test.com',
+            'password' => Hash::make('password123'),
+            'role' => 'admin',
+        ]);
+
+        ScheduleTime::create([
+            'day' => 'Monday',
+            'start_time' => '07:30',
+            'end_time' => '09:00',
+        ]);
+
+        ScheduleTime::create([
+            'day' => 'Wednesday',
+            'start_time' => '09:15',
+            'end_time' => '10:45',
+        ]);
+
+        $resTimes = $this->actingAs($admin, 'web')->get(route('admin.schedule-times.index'));
+        $resTimes->assertStatus(200);
+
+        $resSchedules = $this->actingAs($admin, 'web')->get(route('admin.schedules.index'));
+        $resSchedules->assertStatus(200);
     }
 }

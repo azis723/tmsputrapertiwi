@@ -50,7 +50,7 @@ class ScheduleController extends Controller
         $subjects = Subject::all();
         $teachers = Teacher::where('status', 'active')->get();
         $academicYears = AcademicYear::all();
-        $scheduleTimes = ScheduleTime::all();
+        $scheduleTimes = ScheduleTime::ordered()->get();
 
         return view('admin.schedules.create', compact('classes', 'subjects', 'teachers', 'academicYears', 'scheduleTimes'));
     }
@@ -79,7 +79,7 @@ class ScheduleController extends Controller
         $subjects = Subject::all();
         $teachers = Teacher::where('status', 'active')->get();
         $academicYears = AcademicYear::all();
-        $scheduleTimes = ScheduleTime::all();
+        $scheduleTimes = ScheduleTime::ordered()->get();
 
         return view('admin.schedules.edit', compact('schedule', 'classes', 'subjects', 'teachers', 'academicYears', 'scheduleTimes'));
     }

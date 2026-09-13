@@ -10,9 +10,7 @@ class ScheduleTimeController extends Controller
 {
     public function index()
     {
-        $scheduleTimes = ScheduleTime::orderByRaw("FIELD(day, 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday')")
-            ->orderBy('start_time')
-            ->get();
+        $scheduleTimes = ScheduleTime::ordered()->get();
 
         return view('admin.schedule_times.index', compact('scheduleTimes'));
     }
