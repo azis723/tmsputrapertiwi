@@ -229,6 +229,17 @@ class DatabaseSeeder extends Seeder
             'face_embedding' => json_encode(array_fill(0, 128, 0.02)),
         ]);
 
+        // Secondary test student without face registered & without today attendance
+        $studentBayu = Student::create([
+            'class_id' => $classXRPL1->id,
+            'nis' => '1006',
+            'name' => 'Bayu Pratama (Uji Wajah 2)',
+            'email' => 'bayu@putrapertiwi.sch.id',
+            'password' => Hash::make('password'),
+            'status' => 'active',
+            'face_embedding' => null, // Ready to test face registration!
+        ]);
+
         // 8. Subjects
         $subWeb = Subject::create([
             'code' => 'RPL-01',
